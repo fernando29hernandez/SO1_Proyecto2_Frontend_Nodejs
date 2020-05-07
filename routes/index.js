@@ -16,12 +16,19 @@ router.get('/casos', function (req, res) {
       return
     }
     const database = client.db('proyecto')
-    const collection = database.collection('casos').aggregate([{
-      $group: {
-        _id: "$departamento",
-        totales: { $sum: 1 }
+    const collection = database.collection('casos').aggregate([
+      {
+        $group: {
+          _id: "$departamento",
+          totales: { $sum: 1 }
+        }
+      },
+      {
+          $sort: {
+            totales: -1
+          }
       }
-    }])
+    ])
     //var cursor = collection.find({});
     //var cursor = db.collection('casos').find();
     str = [];
