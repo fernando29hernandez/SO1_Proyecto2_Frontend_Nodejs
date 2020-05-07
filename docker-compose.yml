@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+    app-backend:
+        container_name: frontend_nodejs
+        environment:
+          DB_HOST_IP: 35.237.232.19        
+        build: .
+        volumes:
+          - type: bind
+            source: ./
+            target: /app
+          - /app/node_modules
+        ports:
+        - "81:3000"
+        restart: always
