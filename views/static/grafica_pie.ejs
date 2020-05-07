@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    var intervalo = 5; //Tiempo en segundos de cada cuanto se van a refrescar los datos
+    var arreglo = [];
+    google.charts.load("current", {
+      callback: function () {
+        drawChart();
+        setInterval(drawChart, intervalo * 1000);
+        function drawChart() {
+          $.ajax({
+            url: "/casos",
+            type: "get",
+            success: function (json) {
+              var options = {
+                title: 'Cantidad de Casos por departamentos'
+              };
+              console.log(json);
+              var nuevo_arreglo = [['Departamentos','Cantidad de casos']];
+
+              json.forEach(function (element, index, array) {
+                  nuevo_arreglo.push([element[0],element[1]]);
+              })
+              arreglo = nuevo_arreglo;
+              var data = google.visualization.arrayToDataTable(arreglo);
+              var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+              chart.draw(data, options);
+            }
+          });
+        }
+      },
+      packages: ["corechart"]
+    });
+  </script>
