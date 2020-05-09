@@ -1,43 +1,40 @@
 <script type="text/javascript">
-    var intervalo = 5; //Tiempo en segundos de cada cuanto se van a refrescar los datos
-    var arreglo = [];
-    google.charts.load("current", {
-      callback: function () {
-        drawChart();
-        setInterval(drawChart, intervalo * 1000);
-        function drawChart() {
-          $.ajax({
-            url: "/casos",
-            type: "get",
-            success: function (json) {
-              var options = {
-                title: 'Cantidad de Casos por departamentos',
-                is3D: true
-              };
-              console.log(json);
-              var nuevo_arreglo = [['Departamentos','Cantidad de casos']];
+  var intervalo = 5; //Tiempo en segundos de cada cuanto se van a refrescar los datos
+  var arreglo = [];
+  google.charts.load("current", {
+    callback: function () {
+      drawChart();
+      setInterval(drawChart, intervalo * 1000);
+      function drawChart() {
+        $.ajax({
+          url: "/casos",
+          type: "get",
+          success: function (json) {
+            var options = {
+              title: 'Cantidad de Casos por departamentos',
+              is3D: true
+            };
+            console.log(json);
+            var nuevo_arreglo = [['Departamentos', 'Cantidad de casos']];
 
-              json.forEach(function (element, index, array) {
-                  if(index<1)
-                  {
-                    $("#primero").html(element[0]+' con un total de: ' +element[1]+' casos');
-                  }else if(index<2)
-                  {
-                    $("#segundo").html(element[0]+' con un total de: ' +element[1]+' casos');
-                  }else if(index<3)
-                  {
-                    $("#tercero").html(element[0]+' con un total de: ' +element[1]+' casos');
-                  }
-                  nuevo_arreglo.push([element[0],element[1]]);
-              })
-              arreglo = nuevo_arreglo;
-              var data = google.visualization.arrayToDataTable(arreglo);
-              var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-              chart.draw(data, options);
-            }
-          });
-        }
-      },
-      packages: ["corechart"]
-    });
-  </script>
+            json.forEach(function (element, index, array) {
+              if (index < 1) {
+                $("#primero").html(element[0] + ' con un total de: ' + element[1] + ' casos');
+              } else if (index < 2) {
+                $("#segundo").html(element[0] + ' con un total de: ' + element[1] + ' casos');
+              } else if (index < 3) {
+                $("#tercero").html(element[0] + ' con un total de: ' + element[1] + ' casos');
+              }
+              nuevo_arreglo.push([element[0], element[1]]);
+            })
+            arreglo = nuevo_arreglo;
+            var data = google.visualization.arrayToDataTable(arreglo);
+            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+            chart.draw(data, options);
+          }
+        });
+      }
+    },
+    packages: ["corechart"]
+  });
+</script>

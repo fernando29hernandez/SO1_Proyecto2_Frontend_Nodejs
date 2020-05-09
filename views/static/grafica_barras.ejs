@@ -1,0 +1,92 @@
+<script type="text/javascript">
+    //var intervalo = 5; //Tiempo en segundos de cada cuanto se van a refrescar los datos
+    //var arreglo = [];
+    google.charts.load("current", {
+        callback: function () {
+            drawChart();
+            setInterval(drawChart, intervalo * 1000);
+            function drawChart() {
+                $.ajax({
+                    url: "/edades",
+                    type: "get",
+                    success: function (json) {
+                        let arreglo_datos = json['response'];
+                        let cantidad1 = 0;
+                        let cantidad2 = 0;
+                        let cantidad3 = 0;
+                        let cantidad4 = 0;
+                        let cantidad5 = 0;
+                        let cantidad6 = 0;
+                        let cantidad7 = 0;
+                        let cantidad8 = 0;
+                        let cantidad9 = 0;
+                        let cantidad10 = 0;
+                        let cantidad11 = 0;
+                        arreglo_datos.forEach(function (element, index, array) {
+                            if (element >=0 && element <=10) {
+                                cantidad1=cantidad1+1;
+                            }else if (element >=11 && element <=20) {
+                                cantidad2=cantidad2+1;
+                            }else if (element >=21 && element <=30) {
+                                cantidad3=cantidad3+1;
+                            }else if (element >=31 && element <=40) {
+                                cantidad4=cantidad4+1;
+                            }else if (element >=41 && element <=50) {
+                                cantidad5=cantidad5+1;
+                            }else if (element >=51 && element <=60) {
+                                cantidad6=cantidad6+1;
+                            }else if (element >=61 && element <=70) {
+                                cantidad7=cantidad7+1;
+                            }else if (element >=71 && element <=80) {
+                                cantidad8=cantidad8+1;
+                            }else if (element >=81 && element <=90) {
+                                cantidad9=cantidad9+1;
+                            }else if (element >=91 && element <=100) {
+                                cantidad10=cantidad10+1;
+                            }else if (element >=101) {
+                                cantidad11=cantidad11+1;
+                            } 
+                        })
+                        var data = google.visualization.arrayToDataTable([
+                            ["Medida", "Cantidad", { role: "style" }],
+                            ["De 0 a 10",cantidad1, "#b87333"],
+                            ["De 11 a 20",cantidad2, "#b87333"],
+                            ["De 21 a 30",cantidad3, "#b87333"],
+                            ["De 31 a 40",cantidad4, "#b87333"],
+                            ["De 41 a 50",cantidad5, "#b87333"],
+                            ["De 51 a 60",cantidad6, "#b87333"],
+                            ["De 61 a 70",cantidad7, "#b87333"],
+                            ["De 71 a 80",cantidad8, "#b87333"],
+                            ["De 81 a 90",cantidad9, "#b87333"],
+                            ["De 91 a 100",cantidad10, "#b87333"],
+                            ["Mas de 100",cantidad11, "#b87333"],
+
+                        ]);
+                        var view = new google.visualization.DataView(data);
+                        view.setColumns([0, 1,
+                            {
+                                calc: "stringify",
+                                sourceColumn: 1,
+                                type: "string",
+                                role: "annotation"
+                            },
+                            2]);
+
+                        var options = {
+                            title: "Cantidad de Casos por edades",
+                            width: 675,
+                            height: 400,
+                            bar: { groupWidth: "60%" },
+                            legend: { position: "none" },
+                        };
+                        var chart = new google.visualization.BarChart(document.getElementById("columnchart_values"));
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+
+                        chart.draw(data, options);
+                    }
+                });
+            }
+        },
+        packages: ["corechart", "bar"]
+    });
+</script>
