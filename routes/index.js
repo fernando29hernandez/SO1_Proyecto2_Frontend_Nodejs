@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var redis = require('redis'),
-    clientredis = redis.createClient(6379,"35.237.232.19");
+    clientredis = redis.createClient(6379,"35.237.178.105");
 const mongo = require('mongodb').MongoClient
-const url = 'mongodb://35.237.232.19'
+const url = 'mongodb://35.237.178.105/'
 var str = [];
 var objetos=[];
 /* GET home page. */
