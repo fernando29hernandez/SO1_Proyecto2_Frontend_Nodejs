@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Proyecto2</title>
-    <% include static/head %>
-    <% include static/grafica_pie %>
-    <% include static/grafica_barras %>
+  <title>Proyecto2</title>
+  <% include static/head %>
+  <% include static/grafica_pie %>
+  <% include static/grafica_barras %>
 </head>
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Proyecto 2</a>
@@ -25,23 +27,41 @@
         </div>
       </div>
     </div>
-  <div id="chart_div" style="width: 650px; height: 500px;"></div>
-  <div id="columnchart_values" style="position: absolute; bottom:-210px; width: 700px; height: 600px;"></div>
-        <!-- //copyright -->
-        <ul class="colorlib-bubbles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Ultimo Caso Agregado</h5>
+          <p class="card-text" id="nombre_caso"></p>
+          <p class="card-text" id="depto_caso"></p>
+          <p class="card-text" id="edad_caso"></p>
+          <p class="card-text" id="forma_caso"></p>
+          <p class="card-text" id="estado_caso"></p>
+
+        </div>
+      </div>
     </div>
-    <!-- //main -->
+    <div id="columnchart_values" style="width: 700px; height: 600px;"></div>
+    <div style="width: 6px; "></div>
+    <div id="chart_div" style="width: 658px; height: 500px;"></div>
+    
+    
+  </div>
+  
+  <!-- position: absolute; bottom:-210px; //copyright -->
+  <ul class="colorlib-bubbles">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  </div>
+  <!-- //main -->
 </body>
 
 </html>
