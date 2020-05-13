@@ -5,9 +5,8 @@ RUN mkdir /app
 WORKDIR /app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package.json ./
+COPY . .
 RUN npm install
-RUN npm install -g nodemon
 # If you are building your code for production
 EXPOSE 3000
-CMD [ "nodemon","start"]
+CMD [ "npm","start"]
