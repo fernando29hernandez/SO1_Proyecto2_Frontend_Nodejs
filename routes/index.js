@@ -48,62 +48,72 @@ router.get('/casos', async function (req, res) {
     client.close();
   });
 });
-function insertaredad(edad) {
-  objetos.push(edad);
 
-
-}
 router.get('/edades', function (req, res) {
+  try {
+    clientredis.keys('*', function (err, keys) {
+      if (err) { return res.send({ response: objetos }) } else {
+        //console.log(keys);
+        //objetos=[]
+        let objetos_ = [];
+        for (var i = 0, len = keys.length; i < len; i++) {
+          //console.log(keys[i]);
+          clientredis.get('' + keys[i] + '', function (err, data) {
+            //console.log(JSON.parse(data));
+            if (err) {
+              return res.send({ response: objetos })
 
-  clientredis.keys('*', function (err, keys) {
-    if (err) { return res.send({ response: objetos }) } else {
-      //console.log(keys);
-      //objetos=[]
-      let objetos_ = [];
-      for (var i = 0, len = keys.length; i < len; i++) {
-        //console.log(keys[i]);
-        clientredis.get(keys[i], function (err, data) {
-          //console.log(JSON.parse(data));
-          var objeto = JSON.parse(data)
-          objetos_.push(parseInt(objeto['edad']))
-          //insertaredad();
-        });
+            }
+            var objeto = '';
+            try {
+              objeto = JSON.parse(data)
+              objetos_.push(parseInt(objeto['edad']))
+
+            } catch (error) {
+            }
+            //insertaredad();
+          });
+        }
+        objetos = objetos_;
       }
-      objetos = objetos_;
-    }
-  });
-  console.log(objetos);
-  res.send({ response: objetos })
-  //var result = objetos.reduce((r,c) => (r[c] = (r[c] || 0) + 1, r), {})
-  //console.log(result)
+    });
+    console.log(objetos);
+    res.send({ response: objetos })
+  } catch (error) {
+    return res.send({ response: objetos })
+  }
 })
 
 router.get('/ultimo', async function (req, res) {
-  var llave = '';
-  mongo.connect(url, function (err, client) {
-    const database = client.db('proyecto')
-    database.collection('casos', function (err, collection) {
-      collection
-        .find()
-        .sort({ $natural: -1 })
-        .limit(1)
-        .next()
-        .then(
-          function (doc) {
-            llave = doc._id
-            console.log(llave);
-            clientredis.get(''+llave+'', function (err, data) {
-              console.log(data);
-              res.send({ response: JSON.parse(data) })
-            });
-          },
-          function (err) {
-
-          }
-        );
+  try {
+    var llave = ''
+    mongo.connect(url, function (err, client) {
+      const database = client.db('proyecto')
+      database.collection('casos', function (err, collection) {
+        collection
+          .find()
+          .sort({ $natural: -1 })
+          .limit(1)
+          .next()
+          .then(
+            function (doc) {
+              llave = doc._id
+              console.log(llave);
+              clientredis.get('' + llave + '', function (err, data) {
+                console.log(data);
+                return res.send({ response: JSON.parse(data) })
+              });
+            },
+            function (err) {
+              return res.send({ response: {} })
+            }
+          );
+      });
+      client.close();
     });
-    client.close();
-  });
+  } catch (error) {
+    return res.send({ response: {} })
 
+  }
 })
 module.exports = router;
